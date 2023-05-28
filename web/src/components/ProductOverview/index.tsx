@@ -68,7 +68,7 @@ export const ProductOverview = () => {
                             <button className="button button__outline">Adicionar Garantia Estendida</button>
                         </div>
                         <div className="table__column">
-                            <button className="button">Ver mais opções</button>
+                            <button className="button button__more--options">Ver mais opções</button>
                         </div>
                     </div>
                     <div className="table__row border__bottom shipping__container align-end">

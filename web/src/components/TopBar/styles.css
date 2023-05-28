@@ -25,4 +25,9 @@
     background-color: transparent;
     border-radius: 0.3125rem;
     color: var(--blue-500);
+    transition: all 0.3s ease-in-out;
+}
+.topbar__button:hover{
+    background-color: var(--blue-500);
+    color: var(--white-900);
 }

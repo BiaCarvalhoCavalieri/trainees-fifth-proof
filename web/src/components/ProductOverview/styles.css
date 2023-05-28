@@ -89,21 +89,15 @@
 .product__quantity {
     width: 6rem;
     height: 2.25rem;
-
     background: var(--white-900);
     border-radius: 0.3125rem;
 }
-
-.button__trash {
-    background: transparent;
-    padding: 0 1.625rem
+.button__more--options {
+    transition: all 0.3s ease-in-out;
 }
-
-.button__outline {
-    width: 14rem;  
-    border: 0.0938rem solid var(--blue-500);
+.button__more--options:hover {
+    background-color: var(--blue-100);
 }
-
 .shipping__container {
     padding: 1rem 1.5rem;
     border-top: 0.0625rem solid var(--gray-100);
