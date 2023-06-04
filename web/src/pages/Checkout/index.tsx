@@ -9,7 +9,6 @@ import './styles.css'
 
 
 export const Checkout = () => {
-
   return (
     <OrderFormProvider>
       <div className='container'>

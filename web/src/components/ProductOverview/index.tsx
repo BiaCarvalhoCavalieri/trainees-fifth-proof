@@ -1,18 +1,13 @@
 import trashImage from '../../assets/trash.svg';
-import './styles.css';
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Shipping } from '../Shipping';
-import { ShippingType } from '../../typings/useShipping';
 import { useOrderForm } from '../../hooks/useOrderForm';
 import { convertToReal } from '../../utils/utils';
+import './styles.css';
 
 export const ProductOverview = () => {
     const [shippingType, setShippingType] = useState<string>('entrega');
     const { productsList, setProductsList } = useOrderForm()
-
-    function handleShipping(type: string) {
-        setShippingType(type)
-    }
 
     function deleteProduct(id: number) {
         const newProductsList = productsList.filter(product => product.id !== id)
@@ -77,8 +72,6 @@ export const ProductOverview = () => {
                         </div>
                         {shipping.delivery &&
                             <div className="table__column">
-
-
                                 <Shipping item={{
                                     title: 'Entrega',
                                     type: 'entrega',
@@ -86,11 +79,9 @@ export const ProductOverview = () => {
                                     info: shipping.delivery.days
 
                                 }} shipping={shippingType} setShipping={setShippingType} index={id} />
-
                             </div>
                         }
                         {shipping.pickup && <div className="table__column" >
-
                             <Shipping item={{
                                 title: 'Retirada',
                                 type: 'retirada',
@@ -100,15 +91,11 @@ export const ProductOverview = () => {
                             }} shipping={shippingType} setShipping={setShippingType} index={id} />
                         </div>
                         }
-
                     </div>
                     <div className="table__row">
                         <div className="table__column"><p className="total">Total</p></div>
                         <div className="table__column"><p className="total__price">{convertToReal(Number(price))}</p></div>
-
                     </div>
-                
-
                 </div>
             ))}
         </div>

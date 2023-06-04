@@ -21,6 +21,7 @@ export function OrderFormProvider({ children }: OrderFormProviderProps) {
         name: '',
         listPrice: '',
         price: '',
+        quantity: 1,
         shipping: {
           delivery: {
               days: '',
@@ -30,17 +31,24 @@ export function OrderFormProvider({ children }: OrderFormProviderProps) {
         },    
     }])
     
-    
-    
     const { data, loading, error} = useQuery<InfoData>(GET__ORDERFORM, {
         variables: { input: {
             orderFormId:'c7eb7303-c53f-417d-8d51-cce67e5959e1'
         }} 
     })
+    function insertInitialProductQuantity(products: ProductsList[]){       
+        const productListWithInitialQuantity = products.map((product: ProductsList) => {
+            console.log(product)
+            return { ...product, quantity: 1}
+        })        
+        setProductsList(productListWithInitialQuantity)
+    }
 
     useEffect(() => {
-       if(!data) return
-        setProductsList(data.orderForm.items) 
+        if(!data) return
+        const products: ProductsList[] = data.orderForm.items
+        insertInitialProductQuantity(products)
+      
     },[data && !productsList.length]);
 
     if (error) {
