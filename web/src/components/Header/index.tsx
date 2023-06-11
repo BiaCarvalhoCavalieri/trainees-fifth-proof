@@ -10,6 +10,7 @@ export const Header = () => {
     function returnToHome(){
         navigate('/');
     }
+    
     return (
         <header className='header__container'>
             <div className='header__content content-flex align-center'>

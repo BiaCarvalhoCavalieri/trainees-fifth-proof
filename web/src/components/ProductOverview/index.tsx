@@ -13,10 +13,8 @@ export const ProductOverview = () => {
         const updatedProductsList = productsList.filter(product => product.id !== id)
         setProductsList(updatedProductsList)
     }
-    const handleQuantityChange = (newQuantity: string, id: number) => {
-    
+    function handleQuantityChange(newQuantity: string, id: number) {
         const selectedQuantity = parseInt(newQuantity);
-        console.log('mudou quantidade', id, selectedQuantity)
         const updatedProductsList = productsList.map((product) => 
             product.id === id ? { ...product, quantity: selectedQuantity } :  product
         )
@@ -90,7 +88,8 @@ export const ProductOverview = () => {
                                     title: 'Entrega',
                                     type: 'entrega',
                                     price: shipping.delivery.value ? Number(shipping.delivery.value) : 0,
-                                    info: shipping.delivery.days
+                                    info: shipping.delivery.days,
+                                    index: id
 
                                 }} shipping={shippingType} setShipping={setShippingType} index={id} />
                             </div>
@@ -100,7 +99,8 @@ export const ProductOverview = () => {
                                 title: 'Retirada',
                                 type: 'retirada',
                                 price: 0,
-                                info: 'Disponível em estoque'
+                                info: 'Disponível em estoque', 
+                                index: id
 
                             }} shipping={shippingType} setShipping={setShippingType} index={id} />
                         </div>
