@@ -1,5 +1,5 @@
 import trashImage from '../../assets/trash.svg';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Shipping } from '../Shipping';
 import { useOrderForm } from '../../hooks/useOrderForm';
 import { convertToReal } from '../../utils/utils';
@@ -10,12 +10,23 @@ export const ProductOverview = () => {
     const { productsList, setProductsList } = useOrderForm()
 
     function deleteProduct(id: number) {
-        const newProductsList = productsList.filter(product => product.id !== id)
-        setProductsList(newProductsList)
+        const updatedProductsList = productsList.filter(product => product.id !== id)
+        setProductsList(updatedProductsList)
     }
+    const handleQuantityChange = (newQuantity: string, id: number) => {
+    
+        const selectedQuantity = parseInt(newQuantity);
+        console.log('mudou quantidade', id, selectedQuantity)
+        const updatedProductsList = productsList.map((product) => 
+            product.id === id ? { ...product, quantity: selectedQuantity } :  product
+        )
+        setProductsList(updatedProductsList)
+    }
+    
+     
     return (
         <div className="table__container">
-            {productsList.map(({ id, image, name, listPrice, price, shipping }) => (
+            {productsList.map(({ id, image, name, listPrice, price, shipping, quantity }) => (
                 <div className="table">
                     <div className="table__row">
                         <div className="table__column table__column--product table__column--header">
@@ -48,10 +59,13 @@ export const ProductOverview = () => {
                             </p>
                         </div>
                         <div className="table__column table__column--quantity table__column--body">
-                            <select className="product__quantity">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                            <select 
+                                className="product__quantity"
+                                value={quantity} 
+                                onChange={(newQuantity) => handleQuantityChange(newQuantity.target.value, id)}>
+                                <option value={1}>1</option>
+                                <option value={2}>2</option>
+                                <option value={3}>3</option>
                             </select>
                             <button className="button__trash" onClick={() => deleteProduct(id)}>
                                 <img src={trashImage} alt="excluir produto" />

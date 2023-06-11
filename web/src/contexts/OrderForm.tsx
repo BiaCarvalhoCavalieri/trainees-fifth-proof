@@ -38,7 +38,6 @@ export function OrderFormProvider({ children }: OrderFormProviderProps) {
     })
     function insertInitialProductQuantity(products: ProductsList[]){       
         const productListWithInitialQuantity = products.map((product: ProductsList) => {
-            console.log(product)
             return { ...product, quantity: 1}
         })        
         setProductsList(productListWithInitialQuantity)
