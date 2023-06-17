@@ -6,8 +6,8 @@ import { convertToReal } from '../../utils/utils';
 import './styles.css';
 
 export const ProductOverview = () => {
-    const [shippingType, setShippingType] = useState<string>('entrega');
     const { productsList, setProductsList } = useOrderForm()
+    console.log(productsList, 'lista de produtos')
 
     function deleteProduct(id: number) {
         const updatedProductsList = productsList.filter(product => product.id !== id)
@@ -18,6 +18,16 @@ export const ProductOverview = () => {
         const updatedProductsList = productsList.map((product) => 
             product.id === id ? { ...product, quantity: selectedQuantity } :  product
         )
+        setProductsList(updatedProductsList)
+    }
+    function handleShippingChange(newShipping: string, id: number) { 
+        const updatedProductsList = productsList.map((product) => (
+            product.id === id ? {
+                ...product, shipping: {
+                    ...product.shipping, selected: newShipping
+                }
+            } : product
+        ))
         setProductsList(updatedProductsList)
     }
     
@@ -84,25 +94,32 @@ export const ProductOverview = () => {
                         </div>
                         {shipping.delivery &&
                             <div className="table__column">
-                                <Shipping item={{
-                                    title: 'Entrega',
-                                    type: 'entrega',
-                                    price: shipping.delivery.value ? Number(shipping.delivery.value) : 0,
-                                    info: shipping.delivery.days,
-                                    index: id
+                                <Shipping 
+                                    item={{
+                                        title: 'Entrega',
+                                        type: 'entrega',
+                                        price: shipping.delivery.value ? Number(shipping.delivery.value) : 0,
+                                        info: shipping.delivery.days,
+                                        index: id
 
-                                }} shipping={shippingType} setShipping={setShippingType} index={id} />
+                                    }} 
+                                    currentShipping={shipping.selected}
+                                    handleShippingChange={handleShippingChange}
+                                />
                             </div>
                         }
                         {shipping.pickup && <div className="table__column" >
-                            <Shipping item={{
-                                title: 'Retirada',
-                                type: 'retirada',
-                                price: 0,
-                                info: 'Disponível em estoque', 
-                                index: id
-
-                            }} shipping={shippingType} setShipping={setShippingType} index={id} />
+                            <Shipping 
+                                item={{
+                                    title: 'Retirada',
+                                    type: 'retirada',
+                                    price: 0,
+                                    info: 'Disponível em estoque', 
+                                    index: id
+                                }}
+                                currentShipping={shipping.selected}
+                                handleShippingChange={handleShippingChange}
+                            />
                         </div>
                         }
                     </div>

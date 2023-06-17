@@ -2,11 +2,10 @@ import './styles.css';
 import { ShippingProps } from '../../typings/useShipping';
 import { convertToReal } from '../../utils/utils';
  
-export const Shipping = ({item,  shipping, setShipping, index}: ShippingProps) => {  
-    console.log(item, index, shipping, 'item e index')
+export const Shipping = ({item, currentShipping, handleShippingChange}: ShippingProps) => {  
     return (  
-        <div key={index} className={`shipping__wrapper ${shipping == item.type ? 'active': ''}`} onClick={() => item.index === index ? setShipping(item.type) : null}>
-            <input type="radio" name={`shipping${index}`} id={`shipping${index}`} checked={shipping == item.type && item.index == index}/>
+        <div key={item.index} className={`shipping__wrapper ${currentShipping == item.type ? 'active': ''}`} onClick={() => handleShippingChange(item.type, item.index)}>
+            <input type="radio" name={`shipping${item.index}`} id={`shipping${item.index}`} checked={currentShipping == item.type}/>
             <div className="shipping_description">
                 <p className="shipping__description--title">{item.title}</p>
                 <p className="shipping__description--info">{item.info}</p>   

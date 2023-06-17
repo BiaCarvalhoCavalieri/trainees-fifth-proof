@@ -28,6 +28,7 @@ export function OrderFormProvider({ children }: OrderFormProviderProps) {
               value: '',
           },
           pickup: false,
+          selected: 'entrega'
         },    
     }])
     
@@ -36,17 +37,19 @@ export function OrderFormProvider({ children }: OrderFormProviderProps) {
             orderFormId:'c7eb7303-c53f-417d-8d51-cce67e5959e1'
         }} 
     })
-    function insertInitialProductQuantity(products: ProductsList[]){       
-        const productListWithInitialQuantity = products.map((product: ProductsList) => {
-            return { ...product, quantity: 1}
+    function insertInitialProductQuantityAndShipping(products: ProductsList[]){       
+        const productListWithInitialQuantityAndShipping = products.map((product: ProductsList) => {
+            return { ...product, quantity: 1, 
+                shipping: { ...product.shipping, selected: 'entrega'}
+            }
         })        
-        setProductsList(productListWithInitialQuantity)
+        setProductsList(productListWithInitialQuantityAndShipping)
     }
 
     useEffect(() => {
         if(!data) return
         const products: ProductsList[] = data.orderForm.items
-        insertInitialProductQuantity(products)
+        insertInitialProductQuantityAndShipping(products)
       
     },[data && !productsList.length]);
 

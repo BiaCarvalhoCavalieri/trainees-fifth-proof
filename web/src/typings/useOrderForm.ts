@@ -26,6 +26,7 @@ export type ProductsList =  {
         days: string,
         value: string,
       },
-      pickup: boolean
+      pickup: boolean,
+      selected: string,
     },
 }
