@@ -15,22 +15,7 @@ export const OrderFormContext = React.createContext<useOrderForm>(
 )
 
 export function OrderFormProvider({ children }: OrderFormProviderProps) {
-    const [productsList, setProductsList] = useState<ProductsList[]>([{ 
-        id: 0,
-        image: '',
-        name: '',
-        listPrice: '',
-        price: '',
-        quantity: 1,
-        shipping: {
-          delivery: {
-              days: '',
-              value: '',
-          },
-          pickup: false,
-          selected: 'entrega'
-        },    
-    }])
+    const [productsList, setProductsList] = useState<ProductsList[]>([] as ProductsList[])
     
     const { data, loading, error} = useQuery<InfoData>(GET__ORDERFORM, {
         variables: { input: {
@@ -39,8 +24,12 @@ export function OrderFormProvider({ children }: OrderFormProviderProps) {
     })
     function insertInitialProductQuantityAndShipping(products: ProductsList[]){       
         const productListWithInitialQuantityAndShipping = products.map((product: ProductsList) => {
+            let typeShipping = "entrega"
+            if(!product.shipping.delivery) 
+                typeShipping = "retirada" 
+            
             return { ...product, quantity: 1, 
-                shipping: { ...product.shipping, selected: 'entrega'}
+                shipping: { ...product.shipping, selected: typeShipping}
             }
         })        
         setProductsList(productListWithInitialQuantityAndShipping)

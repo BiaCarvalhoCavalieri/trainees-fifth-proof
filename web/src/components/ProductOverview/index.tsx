@@ -7,7 +7,6 @@ import './styles.css';
 
 export const ProductOverview = () => {
     const { productsList, setProductsList } = useOrderForm()
-    console.log(productsList, 'lista de produtos')
 
     function deleteProduct(id: number) {
         const updatedProductsList = productsList.filter(product => product.id !== id)
