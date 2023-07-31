@@ -92,8 +92,12 @@
 .button__outline {
     width: 14rem;  
     border: 0.0938rem solid var(--blue-500);
+    transition: all 0.3s ease-in-out;
 }
-
+.button__outline:hover {
+    background-color: var(--blue-500);
+    color: var(--white-900);
+}
 .shipping__container {
     padding: 1rem 1.5rem;
     border-top: 0.0625rem solid var(--gray-100);

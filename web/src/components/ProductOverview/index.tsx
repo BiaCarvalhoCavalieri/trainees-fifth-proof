@@ -1,26 +1,39 @@
 import trashImage from '../../assets/trash.svg';
-import './styles.css';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Shipping } from '../Shipping';
-import { ShippingType } from '../../typings/useShipping';
 import { useOrderForm } from '../../hooks/useOrderForm';
 import { convertToReal } from '../../utils/utils';
+import './styles.css';
 
 export const ProductOverview = () => {
-    const [shippingType, setShippingType] = useState<string>('entrega');
     const { productsList, setProductsList } = useOrderForm()
 
-    function handleShipping(type: string) {
-        setShippingType(type)
-    }
-
     function deleteProduct(id: number) {
-        const newProductsList = productsList.filter(product => product.id !== id)
-        setProductsList(newProductsList)
+        const updatedProductsList = productsList.filter(product => product.id !== id)
+        setProductsList(updatedProductsList)
     }
+    function handleQuantityChange(newQuantity: string, id: number) {
+        const selectedQuantity = parseInt(newQuantity);
+        const updatedProductsList = productsList.map((product) => 
+            product.id === id ? { ...product, quantity: selectedQuantity } :  product
+        )
+        setProductsList(updatedProductsList)
+    }
+    function handleShippingChange(newShipping: string, id: number) { 
+        const updatedProductsList = productsList.map((product) => (
+            product.id === id ? {
+                ...product, shipping: {
+                    ...product.shipping, selected: newShipping
+                }
+            } : product
+        ))
+        setProductsList(updatedProductsList)
+    }
+    
+     
     return (
         <div className="table__container">
-            {productsList.map(({ id, image, name, listPrice, price, shipping }) => (
+            {productsList.map(({ id, image, name, listPrice, price, shipping, quantity }) => (
                 <div className="table">
                     <div className="table__row">
                         <div className="table__column table__column--product table__column--header">
@@ -53,10 +66,13 @@ export const ProductOverview = () => {
                             </p>
                         </div>
                         <div className="table__column table__column--quantity table__column--body">
-                            <select className="product__quantity">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                            <select 
+                                className="product__quantity"
+                                value={quantity} 
+                                onChange={(newQuantity) => handleQuantityChange(newQuantity.target.value, id)}>
+                                <option value={1}>1</option>
+                                <option value={2}>2</option>
+                                <option value={3}>3</option>
                             </select>
                             <button className="button__trash" onClick={() => deleteProduct(id)}>
                                 <img src={trashImage} alt="excluir produto" />
@@ -68,7 +84,7 @@ export const ProductOverview = () => {
                             <button className="button button__outline">Adicionar Garantia Estendida</button>
                         </div>
                         <div className="table__column">
-                            <button className="button">Ver mais opções</button>
+                            <button className="button button__more--options">Ver mais opções</button>
                         </div>
                     </div>
                     <div className="table__row border__bottom shipping__container align-end">
@@ -77,38 +93,39 @@ export const ProductOverview = () => {
                         </div>
                         {shipping.delivery &&
                             <div className="table__column">
+                                <Shipping 
+                                    item={{
+                                        title: 'Entrega',
+                                        type: 'entrega',
+                                        price: shipping.delivery.value ? Number(shipping.delivery.value) : 0,
+                                        info: shipping.delivery.days,
+                                        index: id
 
-
-                                <Shipping item={{
-                                    title: 'Entrega',
-                                    type: 'entrega',
-                                    price: shipping.delivery.value ? Number(shipping.delivery.value) : 0,
-                                    info: shipping.delivery.days
-
-                                }} shipping={shippingType} setShipping={setShippingType} index={id} />
-
+                                    }} 
+                                    currentShipping={shipping.selected}
+                                    handleShippingChange={handleShippingChange}
+                                />
                             </div>
                         }
                         {shipping.pickup && <div className="table__column" >
-
-                            <Shipping item={{
-                                title: 'Retirada',
-                                type: 'retirada',
-                                price: 0,
-                                info: 'Disponível em estoque'
-
-                            }} shipping={shippingType} setShipping={setShippingType} index={id} />
+                            <Shipping 
+                                item={{
+                                    title: 'Retirada',
+                                    type: 'retirada',
+                                    price: 0,
+                                    info: 'Disponível em estoque', 
+                                    index: id
+                                }}
+                                currentShipping={shipping.selected}
+                                handleShippingChange={handleShippingChange}
+                            />
                         </div>
                         }
-
                     </div>
                     <div className="table__row">
                         <div className="table__column"><p className="total">Total</p></div>
                         <div className="table__column"><p className="total__price">{convertToReal(Number(price))}</p></div>
-
                     </div>
-                
-
                 </div>
             ))}
         </div>

@@ -20,11 +20,13 @@ export type ProductsList =  {
     name: string,
     listPrice: string,
     price: string,
+    quantity: number,
     shipping: {
       delivery: {
         days: string,
         value: string,
       },
-      pickup: boolean
+      pickup: boolean,
+      selected: string,
     },
 }
