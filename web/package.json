@@ -7,7 +7,7 @@
     "start": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "start-back": "ls && node ../server/dist/app.js"
+    "start-back": "ls && node server/dist/app.js"
   },
   "dependencies": {
     "@apollo/client": "^3.7.9",
