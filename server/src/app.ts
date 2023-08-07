@@ -89,6 +89,6 @@ app.use(
   })
 );
 
-app.listen(process.env.PORT || 80, () => {
-  console.log("app running at http://localhost:80");
+app.listen(process.env.PORT || 3333, () => {
+  console.log(`app running at http://localhost:${process.env.PORT || 3333}`);
 });
